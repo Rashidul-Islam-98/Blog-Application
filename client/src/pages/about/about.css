@@ -1,0 +1,22 @@
+.about-me {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.about-heading {
+    text-align: center;
+    border-top: 2px solid #a7a4a4;
+    border-bottom: 2px solid #a7a4a4;
+}
+
+.profile-image {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-right: 20px;
+    float: left;
+}
+
+p {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
