@@ -1,11 +1,25 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
+const cloudinary = require("cloudinary");
 
 //CREATE POST
 router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
+  const { title, desc, photo, username, categories } = req.body;
+  const myCloud = await cloudinary.v2.uploader.upload(photo, {
+    folder: "blogApp",
+  })
   try {
+    const newPost = new Post({
+      title: title,
+      desc: desc,
+      photo: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
+      username: username,
+      categories: categories,
+    });
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
   } catch (err) {
@@ -66,6 +80,9 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const username = req.query.user;
   const catName = req.query.cat;
+  const page = parseInt(req.query.page || 1);
+  const limit = 4;
+  const offset = (page - 1) * limit;
   try {
     let posts;
     if (username) {
@@ -79,7 +96,13 @@ router.get("/", async (req, res) => {
     } else {
       posts = await Post.find();
     }
-    res.status(200).json(posts);
+    const total = posts.length;
+    const result = posts.slice(offset, offset + limit);
+    const data = {
+      total,
+      result
+    };
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
   }

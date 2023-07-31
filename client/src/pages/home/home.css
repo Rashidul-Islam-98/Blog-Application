@@ -1,3 +1,17 @@
 .home{
     display: flex;
 }
+
+.paginationButton{
+    margin-left: 30%;
+    padding: 10px;
+    justify-content: center;
+}
+
+.paginationButton button {
+    margin-left: 20px;
+    background-color: aliceblue;
+    color: black;
+    border-radius: 10px;
+    justify-content: center;
+}

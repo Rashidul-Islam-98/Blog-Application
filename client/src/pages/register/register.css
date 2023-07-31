@@ -32,6 +32,37 @@
   border: none;
 }
 
+.registerprofile {
+  margin: 10px;
+}
+
+.registerImage{
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+
+}
+
+.registerPPIcon {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: lightcoral;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+ }
+
+ .inputImage {
+  margin: 10px;
+  float:left;
+ }
+
 .registerButton {
   margin-top: 20px;
   cursor: pointer;

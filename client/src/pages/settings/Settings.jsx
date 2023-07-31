@@ -6,14 +6,13 @@ import axios from "axios";
 const baseURL=process.env.REACT_APP_BASE_URL;
 
 export default function Settings() {
-  const [file, setFile] = useState(null);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
   const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
-  const PF = `${baseURL}/images/`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,17 +22,8 @@ export default function Settings() {
       username,
       email,
       password,
+      profilePic
     };
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      updatedUser.profilePic = filename;
-      try {
-        await axios.post(`${baseURL}/api/upload`, data);
-      } catch (err) {}
-    }
     try {
       const res = await axios.put(baseURL+"/api/users/" + user._id, updatedUser);
       setSuccess(true);
@@ -42,6 +32,19 @@ export default function Settings() {
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
+
+  const handleImage = async (e) =>{
+    const reader = new FileReader();
+
+    reader.onload = () =>{
+      if(reader.readyState===2){
+        setProfilePic(reader.result);
+      }
+    }
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   return (
     <div className="settings">
       <div className="settingsWrapper">
@@ -52,18 +55,21 @@ export default function Settings() {
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
           <div className="settingsPP">
-            <img
-              src={file ? URL.createObjectURL(file) : PF+user.profilePic}
+            {profilePic ? (
+              <img
+              src={profilePic}
               alt=""
             />
-            <label htmlFor="fileInput">
+            ) : (
+              <label htmlFor="fileInput">
               <i className="settingsPPIcon far fa-user-circle"></i>
             </label>
+            )}
             <input
               type="file"
               id="fileInput"
               style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={handleImage}
             />
           </div>
           <label>Username</label>

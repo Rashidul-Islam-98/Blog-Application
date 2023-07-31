@@ -7,7 +7,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [file, setFile] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [categories, setCategories] = useState([]);
   const { user } = useContext(Context);
 
@@ -18,6 +18,7 @@ export default function Write() {
       title,
       desc,
       categories,
+      photo
     };
 
     if (categories) {
@@ -37,26 +38,28 @@ export default function Write() {
       } catch (err) {}
     }    
 
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      newPost.photo = filename;
-      try {
-        await axios.post(`${baseURL}/api/upload`, data);
-      } catch (err) { }
-    }
     try {
       const res = await axios.post(`${baseURL}/api/posts`, newPost);
       window.location.replace("/posts/" + res.data._id);
     } catch (err) { }
   };
 
+  const handleImage = async (e) =>{
+    const reader = new FileReader();
+
+    reader.onload = () =>{
+      if(reader.readyState===2){
+        setPhoto(reader.result);
+      }
+    }
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   return (
     <div className="write">
-      {file && (
-        <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
+      {photo && (
+        <img className="writeImg" src={photo} alt="" />
       )}
       <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
@@ -67,7 +70,7 @@ export default function Write() {
             type="file"
             id="fileInput"
             style={{ display: "none" }}
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleImage}
           />
           <input
             type="text"
