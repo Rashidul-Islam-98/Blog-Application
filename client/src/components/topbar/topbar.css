@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   font-family: "Josefin Sans", sans-serif;
-  z-index: 999;
+  z-index: 100;
 }
 
 .topLeft,
@@ -64,43 +64,26 @@
   margin-left: 15px;
 }
 
-/* Styles for screens with a maximum width of 768px */
+.hamburger {
+  display: none;
+  padding: 10px;
+}
+
+.line {
+  height: 3px;
+  width: 25px;
+  background-color: #333;
+  margin: 4px 0;
+}
+
 @media screen and (max-width: 768px) {
-  .top{
+  .hamburger {
     display: flex;
     flex-direction: column;
   }
-  .topLeft{
-    display: flex;
-    flex-direction: row;
-  }
+
   .topCenter {
-    display: flex;
-    padding: 10px;
-  }
-
-  .topIcon {
-    font-size: 16px; 
-    margin-right: 8px; 
-  }
-
-  .topImg {
-    width: 30px;
-    height: 30px;
-  }
-
-  .topList {
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    padding: 10px;
-    list-style: none;
-  }
-
-  .topSearchIcon {
-    font-size: 16px;
-    margin-left: 10px;
+    display: none;
   }
 }
 

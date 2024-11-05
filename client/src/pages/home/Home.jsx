@@ -37,7 +37,9 @@ export default function Home() {
       <Header />
       <div className="home">
         <Posts posts={posts} />
-        <Sidebar />
+        <div className="sidebar">
+          <Sidebar />
+        </div>
       </div>
       <div className="paginationButton">
         {page > 1 && <button onClick={() => setPage((prevPage) => prevPage - 1)}>Prev</button>}

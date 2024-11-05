@@ -1,16 +1,37 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./topbar.css";
+import Hamburger from "../hamburger/Hamburger";
 
 export default function TopBar() {
   const { user, dispatch } = useContext(Context);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
   return (
     <div className="top">
+      <div className="hamburger" onClick={toggleMenu}>
+        {menuOpen ? (
+          <i className="topIcon fas fa-times"></i>
+        ) : (
+          <i className="topIcon fas fa-bars"></i>
+        )}
+      </div>
+      {menuOpen && (
+        <Hamburger
+          user={user}
+          handleLogout={handleLogout}
+          setMenuOpen={setMenuOpen}
+        />
+      )}
+
       <div className="topLeft">
         <i className="topIcon fab fa-facebook-square"></i>
         <i className="topIcon fab fa-twitter-square"></i>

@@ -2,6 +2,16 @@
     display: flex;
 }
 
+.sidebar {
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  }
+
 .paginationButton{
     margin-left: 30%;
     padding: 10px;
